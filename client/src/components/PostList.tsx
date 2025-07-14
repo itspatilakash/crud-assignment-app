@@ -31,8 +31,8 @@ export default function PostList() {
   };
 
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Posts</h1>
+    <div>
+      <h1 className="title">Posts</h1>
       <PostForm
         onSubmit={editing ? handleUpdate : handleCreate}
         initialData={editing || undefined}

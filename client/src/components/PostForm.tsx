@@ -25,22 +25,22 @@ export default function PostForm({ onSubmit, initialData, isEditing = false }: P
   
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="post-form">
   <input
-    className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+    className="input"
     placeholder="Title"
     value={title}
     onChange={e => setTitle(e.target.value)}
   />
   <textarea
-    className="w-full p-3 border border-gray-300 rounded h-24 resize-none focus:outline-none focus:ring-2 focus:ring-blue-400"
+    className="textarea"
     placeholder="Body"
     value={body}
     onChange={e => setBody(e.target.value)}
   />
   <button
     type="submit"
-    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+    className="button"
   >
     {isEditing ? 'Update Post' : 'Create Post'}
   </button>

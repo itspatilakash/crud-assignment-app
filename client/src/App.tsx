@@ -1,9 +1,10 @@
 import PostList from './components/PostList';
+import './styles.css';
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-md p-6">
+    <div className="app">
+      <div className="container">
         <PostList />
       </div>
     </div>

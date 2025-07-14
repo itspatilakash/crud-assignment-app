@@ -8,13 +8,14 @@ interface Props {
 
 export default function PostItem({ post, onEdit, onDelete }: Props) {
   return (
-    <div className="border p-4 rounded shadow">
-      <h3 className="font-bold text-lg">{post.title}</h3>
-      <p className="text-gray-700">{post.body}</p>
-      <div className="mt-2 space-x-2">
-        <button onClick={() => onEdit(post)} className="text-blue-500">Edit</button>
-        <button onClick={() => onDelete(post.id)} className="text-red-500">Delete</button>
-      </div>
-    </div>
+   <div className="bg-gray-50 p-4 border rounded shadow-sm">
+  <h3 className="text-xl font-semibold text-gray-800">{post.title}</h3>
+  <p className="text-gray-600 mt-1">{post.body}</p>
+  <div className="mt-3 flex gap-3">
+    <button onClick={() => onEdit(post)} className="text-blue-600 hover:underline">Edit</button>
+    <button onClick={() => onDelete(post.id)} className="text-red-500 hover:underline">Delete</button>
+  </div>
+</div>
+
   );
 }

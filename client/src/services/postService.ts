@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { Post } from '../types/post';
 
-const API = '/api/posts';
+const API = 'http://localhost:3001/api/posts';
 
 export const getPosts = () => axios.get<Post[]>(API);
 export const createPost = (post: Omit<Post, 'id'>) => axios.post<Post>(API, post);

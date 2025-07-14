@@ -7,7 +7,6 @@ import PostItem from './PostItem';
 export default function PostList() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
-  const [editing, setEditing] = useState<Post | null>(null);
 
   useEffect(() => {
     getPosts().then(res => setPosts(res.data)).finally(() => setLoading(false));
@@ -18,11 +17,9 @@ export default function PostList() {
     setPosts(prev => [res.data, ...prev]);
   };
 
-  const handleUpdate = async (data: Omit<Post, 'id'>) => {
-    if (!editing) return;
-    const res = await updatePost(editing.id, data);
-    setPosts(prev => prev.map(p => p.id === editing.id ? res.data : p));
-    setEditing(null);
+  const handleUpdate = async (id: number, data: Omit<Post, 'id'>) => {
+    const res = await updatePost(id, data);
+    setPosts(prev => prev.map(p => (p.id === id ? res.data : p)));
   };
 
   const handleDelete = async (id: number) => {
@@ -31,24 +28,22 @@ export default function PostList() {
   };
 
   return (
-    <div>
+    <div className="app">
       <h1 className="title">Posts</h1>
-      <PostForm
-        onSubmit={editing ? handleUpdate : handleCreate}
-        initialData={editing || undefined}
-        isEditing={!!editing}
-      />
+      <PostForm onSubmit={handleCreate} />
       {loading ? (
         <p>Loading...</p>
       ) : (
-        posts.map(post => (
-          <PostItem
-            key={post.id}
-            post={post}
-            onEdit={setEditing}
-            onDelete={handleDelete}
-          />
-        ))
+        <div className="post-grid">
+          {posts.map(post => (
+            <PostItem
+              key={post.id}
+              post={post}
+              onDelete={handleDelete}
+              onUpdate={handleUpdate}
+            />
+          ))}
+        </div>
       )}
     </div>
   );

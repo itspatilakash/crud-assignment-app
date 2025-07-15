@@ -8,6 +8,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+/Users/akashpatil/Desktop/workspace/personal/company/crud-assignment-app/server/node_modules
 dist
 dist-ssr
 *.local

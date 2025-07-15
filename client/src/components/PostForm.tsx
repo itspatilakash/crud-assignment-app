@@ -46,7 +46,7 @@ export default function PostForm({ onSubmit }: Props) {
         disabled={isLoading}
         maxLength={500}
       />
-      <button type="submit" className="button" disabled={isLoading || !title.trim() || !body.trim()}> {isLoading ? '✨ Creating...' : '🚀 Create Post'}</button>
+      <button type="submit" className="button" disabled={isLoading || !title.trim() || !body.trim()}> {isLoading ? '✨ Creating...' : 'Create Post'}</button>
     </form>
   );
 }

@@ -9,6 +9,7 @@ interface Props {
 
 export default function PostItem({ post, onDelete, onUpdate }: Props) {
   const [isEditing, setIsEditing] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [title, setTitle] = useState(post.title);
   const [body, setBody] = useState(post.body);
 
@@ -19,40 +20,84 @@ export default function PostItem({ post, onDelete, onUpdate }: Props) {
     setIsEditing(false);
   };
 
+  const handleCancel = () => {
+    setTitle(post.title);
+    setBody(post.body);
+    setIsEditing(false);
+  };
+
+  const toggleExpand = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsExpanded(!isExpanded);
+  };
+
+  const handleCardClick = () => {
+    if (!isEditing) {
+      setIsExpanded(!isExpanded);
+    }
+  };
+
+  const handleActionClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
+  const isTextLong = post.body.length > 150;
+
+
   return (
-    <div className="post-item">
+    <div className="post-item" onClick={handleCardClick}>
       {isEditing ? (
         <form onSubmit={handleSave} className="post-form">
           <input
             className="input"
             value={title}
             onChange={e => setTitle(e.target.value)}
+            placeholder="Enter title..."
+            autoFocus
           />
           <textarea
             className="textarea"
             value={body}
             onChange={e => setBody(e.target.value)}
+            placeholder="Enter body..."
+            style={{ flexGrow: 1, minHeight: '100px' }}
           />
-          <div className="post-actions">
+          <div className="post-actions" onClick={handleActionClick}>
             <button type="submit" className="button">Save</button>
             <button
               type="button"
               className="link delete"
-              onClick={() => setIsEditing(false)}
+              onClick={handleCancel}
             >
               Cancel
             </button>
           </div>
         </form>
       ) : (
-        <>
+         <div className="post-content">
           <h3 className="post-title">{post.title}</h3>
-          <p className="post-body">{post.body}</p>
-          <div className="post-actions">
-            <button onClick={() => setIsEditing(true)} className="link edit">Edit</button>
-            <button onClick={() => onDelete(post.id)} className="link delete">Delete</button>
+          <p className={`post-body ${isExpanded ? 'expanded' : ''}`}>{post.body}</p>
+          {isTextLong && (
+            <button 
+              className="read-more-btn" 
+              onClick={toggleExpand}
+            >
+              {isExpanded ? 'Read less' : 'Read more'}
+            </button>
+          )}
+          <div className="post-actions" onClick={handleActionClick}>
+            <button onClick={(e) => {
+                e.stopPropagation();
+                setIsEditing(true);
+              }} 
+              className="link edit">Edit</button>
+            <button onClick={(e) => {
+                e.stopPropagation();
+                onDelete(post.id);
+              }} 
+              className="link delete">Delete</button>
           </div>
-        </>
+       </div> 
       )}
     </div>
   );

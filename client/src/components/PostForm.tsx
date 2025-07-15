@@ -8,30 +8,45 @@ interface Props {
 export default function PostForm({ onSubmit }: Props) {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: FormEvent) => {
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!title || !body) return;
-    onSubmit({ title, body });
-    setTitle('');
-    setBody('');
+    if (!title.trim() || !body.trim()) return;
+    
+    setIsLoading(true);
+    try {
+      await onSubmit({ title: title.trim(), body: body.trim() });
+      setTitle('');
+      setBody('');
+    } catch (error) {
+      console.error('Error creating post:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit} className="post-form">
+       <h2>✨ Create New Post</h2>
       <input
         className="input"
-        placeholder="Title"
+        placeholder="Enter an amazing title..."
         value={title}
         onChange={e => setTitle(e.target.value)}
+        disabled={isLoading}
+        maxLength={100}
       />
       <textarea
         className="textarea"
-        placeholder="Body"
+        placeholder="Share your thoughts..."
         value={body}
         onChange={e => setBody(e.target.value)}
+        disabled={isLoading}
+        maxLength={500}
       />
-      <button type="submit" className="button">Create Post</button>
+      <button type="submit" className="button" disabled={isLoading || !title.trim() || !body.trim()}> {isLoading ? '✨ Creating...' : '🚀 Create Post'}</button>
     </form>
   );
 }
